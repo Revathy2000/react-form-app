@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
-import './style1.css';
+import axios from 'axios'; // Import Axios
 
-const InitialForm = ({ onSubmit }) => {
+const InitialForm = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit({ email, message });
+
+    try {
+      // Make POST request to backend endpoint
+      const response = await axios.post('/api/store-message', {
+        email,
+        message,
+      });
+
+      // Handle response
+      console.log('Message stored successfully:', response.data);
+    } catch (error) {
+      console.error('Error storing message:', error);
+    }
   };
 
   return (
